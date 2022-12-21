@@ -29,42 +29,123 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/bi.jpg"), fit: BoxFit.cover),
-        ),
-        child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: SingleChildScrollView(
-                child: Stack(children: [
-              FutureBuilder(
-                future: getApi(),
-                builder: (context, AsyncSnapshot<ReponseModel> snapshot) {
-                  if (snapshot.hasData && snapshot.data != null) {
-                    return ListView.builder(
-                      itemCount: 1,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            Positioned(
-                              height: 100,
-                              width: 100,
-                              child: Text(
+    return Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SingleChildScrollView(
+            child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/bi.jpg"), fit: BoxFit.cover),
+          ),
+          child: FutureBuilder(
+            future: getApi(),
+            builder: (context, AsyncSnapshot<ReponseModel> snapshot) {
+              if (snapshot.hasData && snapshot.data != null) {
+                return ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 200),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Country : ",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w400),
+                              ),
+                              Text(
+                                snapshot.data!.sys.country.toString(),
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "City : ",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w400),
+                              ),
+                              Text(
                                 snapshot.data!.name.toString(),
                                 style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w800),
+                                    fontSize: 20, fontWeight: FontWeight.w400),
                               ),
-                            ),
-                          ],
-                        );
-                      },
+                            ],
+                          ),
+                          Container(
+                              height: 100,
+                              width: 80,
+                              child: Image(
+                                  image: AssetImage('assets/temperature.png'))),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Temp : ",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w400),
+                              ),
+                              Text(
+                                snapshot.data!.main.temp.toString(),
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                          Container(
+                              height: 100,
+                              width: 80,
+                              child:
+                                  Image(image: AssetImage('assets/gauge.png'))),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Pressure :",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w400),
+                              ),
+                              Text(
+                                snapshot.data!.main.pressure.toString(),
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Feels Like : ",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w400),
+                              ),
+                              Text(
+                                snapshot.data!.main.feelsLike.toString(),
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     );
-                  } else {
-                    return Text('loading');
-                  }
-                },
-              )
-            ]))));
+                  },
+                );
+              } else {
+                return Text('loadinggggggggggg');
+              }
+            },
+          ),
+        )));
   }
 }
